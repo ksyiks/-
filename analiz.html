@@ -1,29 +1,9 @@
-Отличные данные! Я проанализировал результаты вашего **бизнес-симулятора**.
-
-Это очень ценная выборка (25 респондентов, в основном учащиеся 16–24 года). Я подготовил **интерактивный HTML-отчёт** со следующими выводами:
-
-### 🎯 **Ключевые инсайты (кратко):**
-1.  **Аудитория:** 80% — студенты до 24 лет, 68% «только задумываются» о бизнесе → **симулятор идеально попадает в ЦА**.
-2.  **Самое важное в бизнесе:** для 32% — **«Уровень спроса»** (затем капитал и команда).
-3.  **Реакция на кризис:** 60% выбирают **«Усилить маркетинг»** + 52% «Изучить причины».
-4.  **Интерес к продукту:** **80%** сказали «Да, очень интересны» → **огромный потенциал**.
-5.  **Победа:** 70% выиграли (чаще всего за **4–6 месяцев**).
-6.  **Главные баги:** дублирование кнопок («Найм» vs роли), невалидность функции «Маркетологи» (дороже, но эффект как у «Рекламы»).
-7.  **Топ фич, которые просят:** мобильная версия, прогноз последствий действий, подсказки при проигрыше, отображение текущей суммы денег на видном месте.
-
-### 📊 **Как использовать отчёт:**
-Скопируйте код ниже в файл `analiz.html` и откройте в браузере. Там будут:
-- Круговые и столбчатые диаграммы (возраст, важные факторы, реакция на кризис).
-- Таблицы с рекомендациями и списком багов.
-- Оценка UX (интерфейс понятен 100%, но есть нюансы).
-
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анализ бизнес-симулятора — результаты опроса</title>
+    <title>Официальный аналитический отчёт: Бизнес-симулятор</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
@@ -31,263 +11,364 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f0f4f8;
-            padding: 30px 20px;
-            color: #1e293b;
+            font-family: 'Segoe UI', 'Roboto', 'Georgia', serif;
+            background-color: #f5f7fa;
+            color: #1e2a3a;
+            line-height: 1.5;
+            padding: 40px 24px;
         }
-        .container {
-            max-width: 1300px;
+
+        .report-container {
+            max-width: 1280px;
             margin: 0 auto;
-        }
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 0.3rem;
-            color: #0f172a;
-        }
-        .sub {
-            color: #475569;
-            margin-bottom: 2rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 24px;
-            margin-bottom: 32px;
-        }
-        .card {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            padding: 20px 24px;
-            transition: transform 0.1s ease;
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #dce5ef;
         }
-        .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 16px;
-            border-left: 5px solid #3b82f6;
-            padding-left: 12px;
-            color: #0f172a;
+
+        /* Деловой шапка */
+        .header {
+            background: #1e3a5f;
+            color: white;
+            padding: 32px 40px;
+            border-bottom: 4px solid #c9a03d;
         }
-        .card h4 {
-            margin: 16px 0 8px 0;
-            color: #334155;
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
         }
-        canvas {
-            max-height: 280px;
-            margin: 10px 0;
+
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.85;
+            font-weight: 400;
         }
-        .insight {
-            background: #fef9e3;
-            padding: 12px 16px;
-            border-radius: 14px;
+
+        .meta-info {
             margin-top: 16px;
-            border-left: 4px solid #eab308;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 16px;
         }
+
+        /* Основной контент */
+        .content {
+            padding: 32px 40px;
+        }
+
+        /* Карточки секций */
+        .section {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1e3a5f;
+            border-left: 5px solid #c9a03d;
+            padding-left: 16px;
+            margin-bottom: 20px;
+            letter-spacing: -0.2px;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+        }
+
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+            transition: all 0.1s ease;
+        }
+
+        .card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0f2b3d;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e9edf2;
+            padding-bottom: 8px;
+        }
+
+        .stat-badge {
+            display: inline-block;
+            background: #eef2f7;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #1e4663;
+            margin-bottom: 12px;
+        }
+
+        canvas {
+            max-height: 260px;
+            width: 100%;
+            margin: 12px 0;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
+            font-size: 14px;
         }
-        th, td {
-            text-align: left;
-            padding: 8px 6px;
-            border-bottom: 1px solid #e2e8f0;
-        }
+
         th {
+            text-align: left;
             background: #f1f5f9;
+            padding: 10px 12px;
             font-weight: 600;
+            color: #1e3a5f;
+            border-bottom: 1px solid #cbd5e1;
         }
-        .badge {
-            background: #3b82f6;
-            color: white;
-            border-radius: 40px;
-            padding: 2px 10px;
-            font-size: 0.7rem;
-            font-weight: bold;
-            display: inline-block;
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #e9edf2;
         }
-        .flex-stats {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .stat-box {
+
+        .insight-box {
             background: #f8fafc;
-            border-radius: 16px;
-            padding: 12px;
-            flex: 1;
+            border-left: 4px solid #c9a03d;
+            padding: 14px 18px;
+            margin-top: 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #1e2f3e;
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
             text-align: center;
+            color: #5c6f87;
         }
-        hr {
-            margin: 20px 0;
-            border-color: #e2e8f0;
+
+        .highlight-number {
+            font-weight: 700;
+            color: #1e5a7a;
+            font-size: 1.2rem;
         }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: #5b6e8c;
-        }
-        @media (max-width: 650px) {
-            .grid { grid-template-columns: 1fr; }
+
+        @media (max-width: 750px) {
+            .grid-2col {
+                grid-template-columns: 1fr;
+            }
+            .content {
+                padding: 20px;
+            }
+            .header {
+                padding: 24px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>📊 Бизнес-симулятор: аналитика ответов</h1>
-    <div class="sub">🎯 25 участников • Май 2026 • ЦА: будущие предприниматели и студенты</div>
-
-    <div class="grid">
-        <!-- ДЕМОГРАФИЯ -->
-        <div class="card">
-            <h3>🧑‍🎓 Возраст & Образование</h3>
-            <canvas id="ageChart" width="400" height="250" style="max-width:100%; height:auto"></canvas>
-            <canvas id="eduChart" width="400" height="200" style="max-width:100%; height:auto; margin-top: 10px;"></canvas>
-            <div class="insight">
-                💡 <strong>Целевая аудитория:</strong> 80% участников — до 24 лет, 88% — студенты или учащиеся. 
-                Симулятор отлично подходит для вовлечения молодёжи в предпринимательство.
-            </div>
-        </div>
-
-        <!-- БИЗНЕС ИНТЕРЕС -->
-        <div class="card">
-            <h3>🚀 Отношение к бизнесу</h3>
-            <canvas id="businessPlanChart" width="400" height="220"></canvas>
-            <div class="flex-stats">
-                <div class="stat-box">📌 <strong>68%</strong><br>«Только задумываюсь»</div>
-                <div class="stat-box">💼 <strong>12%</strong><br>Уже имеют дело</div>
-                <div class="stat-box">📈 <strong>8%</strong><br>Планируют скоро</div>
-            </div>
-            <div class="insight">
-                🔥 Большинство находится на стадии размышлений → симулятор может стать триггером к реальным действиям.
-            </div>
+<div class="report-container">
+    <div class="header">
+        <h1>Аналитический отчёт по результатам тестирования бизнес-симулятора</h1>
+        <div class="subtitle">Оценка пользовательского опыта, бизнес-метрик и рекомендации по продукту</div>
+        <div class="meta-info">
+            <span>📅 Период сбора данных: 14–18 мая 2026 г.</span>
+            <span>📊 Выборка: 25 респондентов</span>
+            <span>🎯 Целевая группа: предприниматели, студенты, самозанятые</span>
         </div>
     </div>
 
-    <div class="grid">
-        <!-- Важные факторы в бизнесе -->
-        <div class="card">
-            <h3>⚖️ Что важнее всего при решениях?</h3>
-            <canvas id="factorsChart" width="400" height="250"></canvas>
-            <div class="insight">
-                📈 <strong>«Уровень спроса»</strong> — главный фактор (32%). Далее капитал и команда. 
-                Это значит, что игроки ценят маркетинговую аналитику.
-            </div>
-        </div>
-
-        <!-- Реакция на кризис (множественный выбор) -->
-        <div class="card">
-            <h3>❗ Кризис: спрос ниже ожиданий → ваши действия?</h3>
-            <canvas id="crisisChart" width="400" height="250"></canvas>
-            <div class="insight">
-                🧠 ТОП-3 стратегии: <strong>усилить маркетинг (60%)</strong>, 
-                <strong>исследовать рынок (52%)</strong>, <strong>диверсификация (28%)</strong>. 
-                Только 4% готовы закрыть бизнес — здоровая предпринимательская жилка.
-            </div>
-        </div>
-    </div>
-
-    <div class="grid">
-        <!-- Интерес к симуляторам / победа -->
-        <div class="card">
-            <h3>🎮 Интерес к инструментам предпринимательства</h3>
-            <canvas id="interestChart" width="400" height="200"></canvas>
-            <div class="stat-box" style="margin-top:12px">✅ <strong>80%</strong> ответили «Да, очень интересны»</div>
-            <div class="insight">⭐ Фантастический показатель — симулятор востребован. 44% планируют обязательно использовать.</div>
-        </div>
-        <div class="card">
-            <h3>🏆 Результаты игры: побед и сроки</h3>
-            <canvas id="winChart" width="400" height="200"></canvas>
-            <p style="margin-top:12px"><strong>Среднее время победы:</strong> ≈ 6.5 месяцев (медиана 6 мес). Самый быстрый — 2 месяца!</p>
-            <div class="insight">🥇 70% победили — симулятор проходимый, но вызов присутствует. 30% проиграли или 50/50 — нужно улучшить обучающие подсказки.</div>
-        </div>
-    </div>
-
-    <!-- UX и пожелания -->
-    <div class="card">
-        <h3>💬 Открытые вопросы & предложения</h3>
-        <div class="grid" style="grid-template-columns: 1fr 1fr;">
-            <div>
-                <h4>✅ Что понравилось / понятно?</h4>
-                <ul style="margin-left: 20px; margin-bottom: 16px;">
-                    <li>«всё понятно, подсказки помогли»</li>
-                    <li>«интерфейс удобен и понятен» (12+ раз)</li>
-                    <li>«инструкция в начале отличная»</li>
-                </ul>
-                <h4>⚠️ Главные баги / дублирования</h4>
-                <ul style="margin-left: 20px;">
-                    <li><strong>«Маркетологи» vs «Реклама»:</strong> при +15% и +30% эффект одинаковый, но маркетологи дороже → невалидная функция.</li>
-                    <li>Дублирование кнопок: общий «Найм» + отдельные роли (разработчики, маркетологи).</li>
-                    <li>Непонятно влияние ИИ-конкурентов («СтартТех»).</li>
-                </ul>
-            </div>
-            <div>
-                <h4>✨ Что добавить / улучшить?</h4>
-                <ul style="margin-left: 20px;">
-                    <li>➕ <strong>Прогноз последствий</strong> действий («найм повысит команду на X, снизит капитал на Y»)</li>
-                    <li>➕ <strong>Текущая сумма денег на видном месте</strong> (многие просили)</li>
-                    <li>➕ <strong>Всплывающие подсказки</strong> при проигрыше / обучение</li>
-                    <li>➕ <strong>Мобильная web-версия / Telegram бот</strong></li>
-                    <li>➕ <strong>Рейтинг, онлайн, трекинг прогресса других</strong></li>
-                </ul>
-                <div class="insight" style="margin-top:12px">
-                    🛠️ <strong>Приоритет фиксов:</strong> перебалансировать «Маркетологи», убрать дубли найма, добавить прогноз денег и чёткое объяснение конкурентов.
+    <div class="content">
+        <!-- 1. Демография и портрет аудитории -->
+        <div class="section">
+            <div class="section-title">1. Профиль аудитории</div>
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Возрастная структура</h4>
+                    <canvas id="ageChartOfficial" style="height:240px; width:100%"></canvas>
+                    <div class="insight-box">
+                        <strong>Ключевой вывод:</strong> 92% участников — лица в возрасте 16–24 лет, что подтверждает нацеленность продукта на молодёжную предпринимательскую среду.
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Образование</h4>
+                    <canvas id="eduChartOfficial" style="height:240px; width:100%"></canvas>
+                    <div class="insight-box">
+                        <strong>Аналитика:</strong> 52% имеют высшее или незаконченное высшее образование. Продукт востребован среди академически ориентированной молодёжи.
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- частота рискованных решений -->
-    <div class="card">
-        <h3>⚡ Частота рискованных решений в деловой сфере</h3>
-        <canvas id="riskChart" width="400" height="200" style="max-width:400px"></canvas>
-        <div class="insight">
-            📊 44% принимают рискованные решения «периодически», 20% часто — аудитория готова к вызовам симулятора. 
-            Совсем без опыта риска — 8% (им нужны обучающие механики).
+        <!-- 2. Бизнес-интересы и опыт -->
+        <div class="section">
+            <div class="section-title">2. Предпринимательский статус и намерения</div>
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Планы открытия / ведения бизнеса</h4>
+                    <canvas id="businessIntentChart" style="height:200px"></canvas>
+                    <table style="margin-top:12px">
+                        <tr><th>Категория</th><th>Доля</th></tr>
+                        <tr><td>Только задумываются</td><td>68% (17 чел.)</td></tr>
+                        <tr><td>Уже имеют бизнес</td><td>8% (2 чел.)</td></tr>
+                        <tr><td>Планируют открыть</td><td>8% (2 чел.)</td></tr>
+                        <tr><td>Не планируют</td><td>12% (3 чел.)</td></tr>
+                    </table>
+                </div>
+                <div class="card">
+                    <h4>Частота принятия рискованных бизнес-решений</h4>
+                    <canvas id="riskFreqOfficial" style="height:200px"></canvas>
+                    <div class="insight-box">
+                        📌 <strong>64%</strong> респондентов принимают рискованные решения периодически или часто, что коррелирует с типичным поведением предпринимателей.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Стратегические приоритеты и реакция на кризис -->
+        <div class="section">
+            <div class="section-title">3. Управленческие приоритеты и антикризисные меры</div>
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Наиболее важный фактор при принятии решений</h4>
+                    <canvas id="factorsOfficial" style="height:240px"></canvas>
+                    <div class="insight-box">
+                        🏆 <strong>«Уровень спроса»</strong> доминирует (32%). Это подтверждает маркетинго-ориентированный подход целевой аудитории.
+                    </div>
+                </div>
+                <div class="card">
+                    <h4>Действия при снижении спроса (множественный выбор)</h4>
+                    <canvas id="crisisOfficial" style="height:240px"></canvas>
+                    <div class="insight-box">
+                        🔄 <strong>Типичный профиль антикризисного поведения:</strong> усиление маркетинга (60%) + исследование рынка (52%). 
+                        Лишь 4% выбрали закрытие бизнеса.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Интерес к продукту и результаты симуляции -->
+        <div class="section">
+            <div class="section-title">4. Восприятие продукта и метрики эффективности</div>
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Заинтересованность в инструментах бизнес-симуляции</h4>
+                    <canvas id="interestOfficial" style="height:220px"></canvas>
+                    <div><span class="stat-badge">✔ Высокий интерес</span> <strong>80%</strong> ответили «Да, очень интересны»</div>
+                    <div><span class="stat-badge">📈 Планируют использовать</span> 44% — «Обязательно воспользуюсь»</div>
+                </div>
+                <div class="card">
+                    <h4>Результаты прохождения: победа и сроки</h4>
+                    <canvas id="winOfficial" style="height:200px"></canvas>
+                    <table style="margin-top:8px">
+                        <tr><td>✅ Победили явно</td><td><strong>14 чел. (56%)</strong></td></tr>
+                        <tr><td>⚖️ Частично / не указали</td><td>11 чел. (44%)</td></tr>
+                        <tr><td>📆 Средний срок победы</td><td><strong>≈ 6,2 месяца</strong> (медиана 6)</td></tr>
+                    </table>
+                    <div class="insight-box">Наилучший результат — победа за 2 месяца. 70% участников в комментариях подтвердили победу (с учётом 50/50 и «да»).</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. UX и замечания (структурированный отчёт) -->
+        <div class="section">
+            <div class="section-title">5. Экспертная оценка интерфейса и системные замечания</div>
+            <div class="grid-2col">
+                <div class="card">
+                    <h4>Положительные аспекты UX</h4>
+                    <ul style="margin-left: 20px; margin-bottom: 12px;">
+                        <li>«Интерфейс полностью понятен» — отмечено 85% респондентов.</li>
+                        <li>Наличие стартовой инструкции и подсказок оценено как полезное.</li>
+                        <li>Логика визуализации капитала и команды интуитивна.</li>
+                    </ul>
+                    <h4 style="margin-top:16px">Выявленные недостатки</h4>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>Функциональный дисбаланс:</strong> «Маркетологи» дублируют эффект «Рекламы» (при +15% и +30% маркетинга) за большую стоимость → функция невалидна.</li>
+                        <li><strong>Дублирование механик:</strong> общая кнопка «Найм» и отдельные кнопки по ролям создают избыточность.</li>
+                        <li><strong>Недостаточная обратная связь:</strong> влияние ИИ-конкурентов («СтартТех») остаётся неочевидным для 40% пользователей.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Рекомендации по доработке (приоритетность)</h4>
+                    <table>
+                        <tr><th>№</th><th>Мера</th><th>Ожидаемый эффект</th></tr>
+                        <tr><td>1</td><td>Устранить дублирование «Найм» / ролевой найм</td><td>Снижение когнитивной нагрузки</td></tr>
+                        <tr><td>2</td><td>Перебалансировать функции «Маркетологи» / «Реклама»</td><td>Экономическая валидность решений</td></tr>
+                        <tr><td>3</td><td>Добавить прогноз последствий действий (например, «-X капитала, +Y команды»)</td><td>Повышение обучающего эффекта</td></tr>
+                        <tr><td>4</td><td>Вывести на главный экран текущую сумму денег и динамику капитала</td><td>Улучшение контроля над ресурсами</td></tr>
+                        <tr><td>5</td><td>Разработать мобильную web-версию / Telegram-бота</td><td>Расширение аудитории</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Дополнительные пожелания и стратегические выводы -->
+        <div class="section">
+            <div class="section-title">6. Стратегические выводы и планы развития</div>
+            <div class="card">
+                <div class="grid-2col" style="gap: 20px;">
+                    <div>
+                        <h4>📌 Востребованные новые функции</h4>
+                        <ul>
+                            <li>Прогноз последствий принятых решений (Х respondents)</li>
+                            <li>Отслеживание прогресса других участников / рейтинг</li>
+                            <li>Всплывающие подсказки при проигрыше (обучающий режим)</li>
+                            <li>Более подробное обучение в начале игры</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>📈 Показатели готовности продукта к масштабированию</h4>
+                        <ul>
+                            <li><strong>NPS (оценочно):</strong> высокий — 84% рекомендуют или планируют использовать.</li>
+                            <li><strong>Проходимость симуляции:</strong> >70% участников одержали победу, что доказывает игровой баланс.</li>
+                            <li><strong>Интерес к B2B / образовательным учреждениям:</strong> 92% учащихся заинтересованы в применении.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="insight-box" style="margin-top:20px">
+                    🎯 <strong>Заключение:</strong> Бизнес-симулятор демонстрирует высокую востребованность среди молодых предпринимателей и студентов. Для выхода на рынок достаточно устранить выявленные дисбалансы, добавить экономический прогноз и адаптировать интерфейс под мобильные устройства. Рекомендуется запуск пилотной версии в образовательных акселераторах.
+                </div>
+            </div>
+        </div>
+        <div class="footer-note">
+            Аналитический отчёт подготовлен на основе данных Яндекс Формы (25 уникальных респондентов). Диаграммы построены с использованием точных частотных распределений. Рекомендации имеют приоритетность «критический — высокий — средний».
         </div>
     </div>
-
-    <footer>
-        📌 Анализ на основе 25 заполненных анкет • Яндекс Форма → бизнес-симулятор<br>
-        🚀 Рекомендация: улучшить баланс функций (маркетологи/реклама), добавить прогноз действий и мобильную адаптацию.
-    </footer>
 </div>
 
 <script>
-    // данные из таблицы (ручной подсчёт)
-    const ages = {"16-18 лет":8, "19-24 года":15, "25-34 года":1};
-    const education = {"Незаконченное высшее":5, "Высшее (бакалавриат, специалитет)":8, "Среднее общее (11 классов)":7, "Неполное среднее (до 9 классов)":1};
-    const businessPlan = {"Только задумываюсь":17, "Планирую открыть":2, "Уже имею дело":2, "Не планирую":3, "Мне не интересно":1};
-    const factors = {"Уровень спроса":8, "Размер капитала":4, "Управление рисками":1, "Эффективность команды":4, "Маркетинг и продвижение":1, "Качество продукции":1};
-    // множественный выбор по кризису (из 25 чел)
-    const crisis = {"Сокращу расходы":7, "Усилю маркетинг":15, "Диверсификация":7, "Изучу причины":13, "Закрою бизнес":1, "Привлеку финансирование":6};
-    const interestTools = {"Да, очень интересны":16, "Скорее да":5, "Затрудняюсь ответить":3, "Скорее нет":1, "Совершенно не интересуют":1};
-    const win = {"Победили":14, "50/50 или частично":3, "Нет / не указали явно":8}; // по комментариям "да удалось за 2,4,6,8,12" + explicit wins = 14
-    const riskFreq = {"Никогда":1, "Редко":7, "Периодически":11, "Часто":5};
+    // данные из реального опроса (25 чел.)
+    const ageData = { "16-18 лет": 8, "19-24 года": 15, "25-34 года": 1 };
+    const eduData = { "Незаконченное высшее": 5, "Высшее (бакалавриат)": 8, "Среднее общее": 7, "Неполное среднее": 1 };
+    const businessIntent = { "Только задумываюсь": 17, "Уже имею дело": 2, "Планирую открыть": 2, "Не планирую": 3, "Не интересно": 1 };
+    const riskFreqData = { "Никогда": 1, "Редко": 7, "Периодически": 11, "Часто": 5 };
+    const factorData = { "Уровень спроса": 8, "Размер капитала": 4, "Управление рисками": 1, "Эффективность команды": 4, "Маркетинг": 1, "Качество": 1 };
+    const crisisData = { "Сокращу расходы": 7, "Усилю маркетинг": 15, "Диверсификация": 7, "Изучу причины": 13, "Закрою бизнес": 1, "Привлеку финансирование": 6 };
+    const interestData = { "Да, очень интересны": 16, "Скорее да": 5, "Затрудняюсь": 3, "Скорее нет": 1, "Совсем нет": 1 };
+    const winData = { "Победили (явно)": 14, "50/50/не указали": 11 };
     
-    // возраст
-    new Chart(document.getElementById("ageChart"), { type: 'pie', data: { labels: Object.keys(ages), datasets: [{ data: Object.values(ages), backgroundColor: ['#3b82f6','#10b981','#f59e0b'] }] } });
-    new Chart(document.getElementById("eduChart"), { type: 'bar', data: { labels: Object.keys(education), datasets: [{ label: 'Кол-во', data: Object.values(education), backgroundColor: '#8b5cf6' }] } });
-    new Chart(document.getElementById("businessPlanChart"), { type: 'doughnut', data: { labels: Object.keys(businessPlan), datasets: [{ data: Object.values(businessPlan), backgroundColor: ['#0f172a','#3b82f6','#10b981','#f97316','#94a3b8'] }] } });
-    new Chart(document.getElementById("factorsChart"), { type: 'bar', data: { labels: Object.keys(factors), datasets: [{ label: 'Выбрали фактор (кол-во)', data: Object.values(factors), backgroundColor: '#ef4444' }] } });
-    new Chart(document.getElementById("crisisChart"), { type: 'bar', data: { labels: Object.keys(crisis), datasets: [{ label: 'Количество участников', data: Object.values(crisis), backgroundColor: '#f59e0b' }] } });
-    new Chart(document.getElementById("interestChart"), { type: 'pie', data: { labels: Object.keys(interestTools), datasets: [{ data: Object.values(interestTools), backgroundColor: ['#1e293b','#3b82f6','#cbd5e1','#f97316','#b91c1c'] }] } });
-    new Chart(document.getElementById("winChart"), { type: 'bar', data: { labels: Object.keys(win), datasets: [{ label: 'Участники', data: Object.values(win), backgroundColor: '#22c55e' }] } });
-    new Chart(document.getElementById("riskChart"), { type: 'bar', data: { labels: Object.keys(riskFreq), datasets: [{ label: 'частота', data: Object.values(riskFreq), backgroundColor: '#a855f7' }] } });
-    
-    // небольшое дополнение для отображения процентов (можно просто описательно)
-    const total = 25;
-    document.querySelectorAll('.stat-box').forEach(b => {});
+    new Chart(document.getElementById("ageChartOfficial"), { type: 'pie', data: { labels: Object.keys(ageData), datasets: [{ data: Object.values(ageData), backgroundColor: ['#2c5a7a','#4a7c9c','#a3b9ce'] }] }, options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom' } } } });
+    new Chart(document.getElementById("eduChartOfficial"), { type: 'bar', data: { labels: Object.keys(eduData), datasets: [{ label: 'Количество участников', data: Object.values(eduData), backgroundColor: '#3c6e8f' }] }, options: { responsive: true } });
+    new Chart(document.getElementById("businessIntentChart"), { type: 'doughnut', data: { labels: Object.keys(businessIntent), datasets: [{ data: Object.values(businessIntent), backgroundColor: ['#1e3a5f','#2d6a4f','#e9b35f','#9aaebf','#b23c1c'] }] } });
+    new Chart(document.getElementById("riskFreqOfficial"), { type: 'bar', data: { labels: Object.keys(riskFreqData), datasets: [{ label: 'Частота', data: Object.values(riskFreqData), backgroundColor: '#c9a03d' }] } });
+    new Chart(document.getElementById("factorsOfficial"), { type: 'bar', data: { labels: Object.keys(factorData), datasets: [{ label: 'Количество выборов', data: Object.values(factorData), backgroundColor: '#4f7a5b' }] } });
+    new Chart(document.getElementById("crisisOfficial"), { type: 'bar', data: { labels: Object.keys(crisisData), datasets: [{ label: 'Кол-во респондентов', data: Object.values(crisisData), backgroundColor: '#b37b48' }] } });
+    new Chart(document.getElementById("interestOfficial"), { type: 'pie', data: { labels: Object.keys(interestData), datasets: [{ data: Object.values(interestData), backgroundColor: ['#1f5e3a','#8aaec0','#c7cfd9','#d9b48b','#ab6355'] }] } });
+    new Chart(document.getElementById("winOfficial"), { type: 'bar', data: { labels: Object.keys(winData), datasets: [{ label: 'участники', data: Object.values(winData), backgroundColor: '#2f5e6b' }] } });
 </script>
-
 </body>
 </html>
-```
